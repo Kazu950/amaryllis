@@ -4,7 +4,7 @@ export const mapAction = (mapState) => ({
   payload: {
     currentLatitude: mapState.currentLatitude,
     currentLongitude: mapState.currentLongitude,
-    errorMsg: mapState.errorMsg,
+    LocationErrorMsg: mapState.LocationErrorMsg,
     voiceMemo: mapState.voiceMemo,
   },
 });
