@@ -1,6 +1,9 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { Provider } from 'react-redux';
+
+import store from './src/redux/store/store';
+import ViewMap from './src/component/view-map';
 
 const styles = StyleSheet.create({
   container: {
@@ -12,10 +15,9 @@ const styles = StyleSheet.create({
 });
 
 const App = () => (
-  <View style={styles.container}>
-    <Text>Open up App.js to start working on your app!</Text>
-    <StatusBar style="light" />
-  </View>
+  <Provider store={store} style={styles.container}>
+    <ViewMap />
+  </Provider>
 );
 
 export default App;

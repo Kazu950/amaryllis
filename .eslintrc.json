@@ -16,6 +16,8 @@
   "rules": {
     "react/jsx-filename-extension": ["off"],
     "react/prop-types": ["off"],
-    "react/style-prop-object": ["off"]
+    "react/style-prop-object": ["off"],
+    "no-console": ["off"],
+    "object-curly-newline": ["off"]
   }
 }
