@@ -5,6 +5,11 @@ const initialState = {
     LocationErrorMsg: '',
     voiceMemo: [],
   },
+  account: {
+    login: '',
+    uid: '',
+    token: '',
+  },
 };
 
 export default initialState;
