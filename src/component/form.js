@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import axios from 'axios';
+
+import signUp from '../api/account';
 
 const styles = StyleSheet.create({
   container: {
@@ -22,30 +23,13 @@ const form = () => {
   const [userName, setUserName] = useState('');
   const [userPassword, setPassword] = useState('');
 
-  const signUp = async () => {
+  const signUpInfo = async () => {
     const body = {
-      name: userName,
-      password: userPassword,
+      userName,
+      userPassword,
     };
-
-    const formBody = Object.keys(body)
-      .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(body[key])}`)
-      .join('&');
-
-    const options = {
-      method: 'POST',
-      headers: { 'content-type': 'application/x-www-form-urlencoded' },
-      data: formBody,
-      url: process.env.VOICEMEMO_POST,
-    };
-
-    await axios(options)
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    const response = await signUp(body);
+    console.info(response);
   };
 
   return (
@@ -64,7 +48,7 @@ const form = () => {
         style={styles.input}
       />
       <Text style={{ marginBottom: 60 }}>※パスワードは8文字以上です</Text>
-      <Button title="SIGN UP" style={styles.input} onPress={signUp} />
+      <Button title="SIGN UP" style={styles.input} onPress={signUpInfo} />
     </View>
   );
 };
