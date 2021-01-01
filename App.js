@@ -3,8 +3,7 @@ import { StyleSheet } from 'react-native';
 import { Provider } from 'react-redux';
 
 import store from './src/redux/store/store';
-import HomeScreen from './src/screen/home-screen';
-// import SignUp from './src/component/form';
+import AppNavigator from './src/navigation/app-navigator';
 
 const styles = StyleSheet.create({
   container: {
@@ -17,7 +16,7 @@ const styles = StyleSheet.create({
 
 const App = () => (
   <Provider store={store} style={styles.container}>
-    <HomeScreen />
+    <AppNavigator />
   </Provider>
 );
 

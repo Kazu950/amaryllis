@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 
-import signUp from '../api/account';
+import { signUp, signIn } from '../api/account';
+import { signInAction, signUpAction } from '../redux/actions/accounts';
 
 const styles = StyleSheet.create({
   container: {
@@ -19,9 +21,16 @@ const styles = StyleSheet.create({
   },
 });
 
-const form = () => {
+export const formTheme = {
+  signIn: 'signIn',
+  signUp: 'signUp',
+};
+
+export const form = ({ theme, onPress }) => {
   const [userName, setUserName] = useState('');
   const [userPassword, setPassword] = useState('');
+
+  const dispatch = useDispatch();
 
   const signUpInfo = async () => {
     const body = {
@@ -29,7 +38,28 @@ const form = () => {
       userPassword,
     };
     const response = await signUp(body);
-    console.info(response);
+    if (response.message === 'success') {
+      dispatch(signUpAction({
+        login: 'true',
+        token: response.token,
+        uid: response.uid,
+      }));
+    }
+  };
+
+  const signinInfo = async () => {
+    const body = {
+      userName,
+      userPassword,
+    };
+    const response = await signIn(body);
+    if (response.message === 'success') {
+      dispatch(signInAction({
+        login: 'true',
+        token: response.token,
+        uid: response.uid,
+      }));
+    }
   };
 
   return (
@@ -47,10 +77,19 @@ const form = () => {
         secureTextEntry
         style={styles.input}
       />
-      <Text style={{ marginBottom: 60 }}>※パスワードは8文字以上です</Text>
-      <Button title="SIGN UP" style={styles.input} onPress={signUpInfo} />
+      { theme === formTheme.signIn ? (
+        <>
+          <Button title="SIGN IN" style={{ marginBottom: 60 }} onPress={signinInfo} />
+          <Button title="アカウントをお持ちでない方はこちら" onPress={onPress} />
+        </>
+      ) : (
+        <>
+          <Text style={{ marginBottom: 60 }}>※パスワードは8文字以上です</Text>
+          <Button title="SIGN UP" style={styles.input} onPress={signUpInfo} />
+          <Button title="すでにアカウントをお持ちの方はこちら" style={styles.input} onPress={onPress} />
+        </>
+      )}
+
     </View>
   );
 };
-
-export default form;
