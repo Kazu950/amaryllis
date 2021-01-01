@@ -8,6 +8,11 @@ const reducer = (state = initialState.account, action) => {
         ...state,
         ...action.payload,
       };
+    case accountActions.SIGN_IN:
+      return {
+        ...state,
+        ...action.payload,
+      };
     default:
       return state;
   }

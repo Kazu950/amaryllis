@@ -24,8 +24,7 @@ const styles = StyleSheet.create({
 const viewMap = () => {
   const dispatch = useDispatch();
   const map = useSelector((state) => state.map);
-  const { LocationErrorMsg } = map;
-  const { voiceMemo } = map;
+  const { LocationErrorMsg, voiceMemo } = map;
   const [voiceRecording, setRecording] = useState();
   const [voiceSound, setSound] = useState();
 
