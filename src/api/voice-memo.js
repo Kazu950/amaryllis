@@ -10,9 +10,10 @@ export const getVoiceMemo = async () => {
 };
 
 export const postVoiceMemo = async (body) => {
-  const formBody = Object.keys(body)
+  let formBody = Object.keys(body)
     .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(body[key])}`)
     .join('&');
+  formBody += '&categories=c02';
   console.log(formBody);
 
   const options = {

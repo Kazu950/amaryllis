@@ -20,6 +20,8 @@
     "no-console": ["off"],
     "object-curly-newline": ["off"],
     "react/no-array-index-key": ["off"],
-    "no-restricted-syntax": ["off"]
+    "no-restricted-syntax": ["off"],
+    "array-callback-return": ["off"],
+    "consistent-return": ["off"]
   }
 }
