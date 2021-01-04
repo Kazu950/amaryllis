@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const getVoiceMemo = async () => {
   const response = await axios
-    .get(process.env.API_URL)
+    .get(process.env.ALL_VOICEMEMO)
     .then((res) => res.data)
     .catch((err) => err);
 
@@ -20,7 +20,7 @@ export const postVoiceMemo = async (body) => {
     method: 'POST',
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
     data: formBody,
-    url: process.env.VOICEMEMO_POST,
+    url: process.env.VOICEMEMO_API,
   };
 
   const response = await axios(options)

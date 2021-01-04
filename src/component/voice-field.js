@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { View, Text, Modal, StyleSheet } from 'react-native';
 import { Audio } from 'expo-av';
 
@@ -36,6 +37,8 @@ const voiceField = () => {
   const [voiceSound, setSound] = useState();
   const [recordingNow, setRecordingNow] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+
+  const account = useSelector((state) => state.account);
 
   const showModal = () => {
     setModalVisible(!modalVisible);
@@ -88,8 +91,8 @@ const voiceField = () => {
     showModal();
 
     const body = {
-      token: process.env.TOKEN,
-      uid: process.env.UID,
+      token: account.token,
+      uid: account.uid,
       time: 2,
       data: 'Tetetest',
       latitude: 34.35,
