@@ -90,17 +90,20 @@ const voiceField = () => {
   const sendVoiceMemo = async (modalInfo) => {
     showModal();
 
-    const body = {
-      token: account.token,
-      uid: account.uid,
-      time: 2,
-      data: 'Tetetest',
-      latitude: 34.35,
-      longitude: 135.24,
-      title: modalInfo.title,
-      summary: modalInfo.summary,
-      categories: modalInfo.category,
-    };
+    const body = [
+      { token: account.token },
+      { uid: account.uid },
+      { time: 2 },
+      { data: 'Tetetest' },
+      { latitude: 34.35 },
+      { longitude: 135.24 },
+      { title: modalInfo.title },
+      { summary: modalInfo.summary },
+    ];
+
+    for (const cId of Object.keys(modalInfo.category)) {
+      body.push({ categories: modalInfo.category[cId] });
+    }
 
     const postVoiceMemoResponse = await api.postVoiceMemo(body);
     console.log(postVoiceMemoResponse.data);
