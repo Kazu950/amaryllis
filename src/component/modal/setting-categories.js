@@ -9,7 +9,7 @@ import {
   ScrollView,
 } from 'react-native';
 
-import { mapAction } from '../../redux/actions/map';
+import { settingAction } from '../../redux/actions/map';
 
 const styles = StyleSheet.create({
   centeredView: {
@@ -84,7 +84,7 @@ const voiceSendingModal = ({ close }) => {
       }
     });
     console.log(validCategory);
-    dispatch(mapAction({ settingCategories: validCategory }));
+    dispatch(settingAction({ settingCategories: validCategory }));
     close();
   };
 
