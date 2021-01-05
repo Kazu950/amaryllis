@@ -15,9 +15,23 @@ const styles = StyleSheet.create({
   input: {
     width: 200,
     height: 44,
-    padding: 10,
     borderColor: 'black',
+    alignContent: 'center',
+    borderBottomColor: 'gray',
+  },
+  buttonContainer: {
     marginBottom: 60,
+    marginLeft: 200,
+  },
+  form: {
+    width: '75%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  label: {
+    marginRight: 18,
   },
 });
 
@@ -64,29 +78,44 @@ export const form = ({ theme, onPress }) => {
 
   return (
     <View style={styles.container}>
-      <TextInput
-        value={userName}
-        onChangeText={(inputName) => setUserName(inputName)}
-        placeholder="Username"
-        style={styles.input}
-      />
-      <TextInput
-        value={userPassword}
-        onChangeText={(inputPassword) => setPassword(inputPassword)}
-        placeholder="Password"
-        secureTextEntry
-        style={styles.input}
-      />
+      <View style={styles.form}>
+        <Text style={styles.label}>User Name</Text>
+        <TextInput
+          value={userName}
+          onChangeText={(inputName) => setUserName(inputName)}
+          placeholder="Username"
+          style={styles.input}
+        />
+      </View>
+      <View style={styles.form}>
+        <Text style={styles.label}>Password</Text>
+        <TextInput
+          value={userPassword}
+          onChangeText={(inputPassword) => setPassword(inputPassword)}
+          placeholder="Password"
+          secureTextEntry
+          style={styles.input}
+        />
+      </View>
       { theme === formTheme.signIn ? (
         <>
-          <Button title="SIGN IN" style={{ marginBottom: 60 }} onPress={signinInfo} />
-          <Button title="アカウントをお持ちでない方はこちら" onPress={onPress} />
+          <View style={styles.buttonContainer}>
+            <Button title="SIGN IN" styles={{ marginBottom: 60 }} onPress={signinInfo} />
+          </View>
+          <View>
+            <Button title="アカウントをお持ちでない方はこちら" onPress={onPress} />
+          </View>
         </>
       ) : (
         <>
           <Text style={{ marginBottom: 60 }}>※パスワードは8文字以上です</Text>
-          <Button title="SIGN UP" style={styles.input} onPress={signUpInfo} />
-          <Button title="すでにアカウントをお持ちの方はこちら" style={styles.input} onPress={onPress} />
+          <View style={styles.buttonContainer}>
+            <Button title="SIGN UP" onPress={signUpInfo} />
+          </View>
+          <View>
+            <Button title="すでにアカウントをお持ちの方はこちら" onPress={onPress} />
+          </View>
+
         </>
       )}
 

@@ -4,6 +4,7 @@ const initialState = {
     currentLongitude: '',
     LocationErrorMsg: '',
     voiceMemo: [],
+    settingCategories: [],
   },
   account: {
     login: '',

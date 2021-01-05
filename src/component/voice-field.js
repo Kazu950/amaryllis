@@ -122,7 +122,7 @@ const voiceField = () => {
   return (
     <View style={styles.field}>
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent
         visible={modalVisible}
       >

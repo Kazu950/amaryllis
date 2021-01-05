@@ -24,6 +24,8 @@ const viewMap = () => {
   const dispatch = useDispatch();
   const map = useSelector((state) => state.map);
   const { LocationErrorMsg, voiceMemo } = map;
+  console.log('------------------voicememo----------------');
+  console.log(voiceMemo);
 
   useEffect(() => {
     (async () => {
