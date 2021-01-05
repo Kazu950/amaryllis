@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Checkbox from 'expo-checkbox';
 import {
   StyleSheet,
   Text,
-  TextInput,
   Button,
   View,
   ScrollView,
 } from 'react-native';
+
+import { mapAction } from '../../redux/actions/map';
 
 const styles = StyleSheet.create({
   centeredView: {
@@ -17,6 +19,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   modalView: {
+    height: 430,
     margin: 20,
     backgroundColor: 'white',
     borderRadius: 20,
@@ -31,23 +34,9 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  openButton: {
-    backgroundColor: '#F194FF',
-    borderRadius: 10,
-    padding: 10,
-    elevation: 2,
-  },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
   modalText: {
     marginBottom: 15,
     textAlign: 'center',
-  },
-  form: {
-    marginBottom: 15,
   },
   section: {
     flexDirection: 'row',
@@ -73,7 +62,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const voiceSendingModal = ({ close, sending }) => {
+const voiceSendingModal = ({ close }) => {
   const categoryChecked = {
     c01: false,
     c02: false,
@@ -82,23 +71,20 @@ const voiceSendingModal = ({ close, sending }) => {
     c05: false,
   };
   const [isClicked, setClicked] = useState(categoryChecked);
-  const [inputTitle, setTitle] = useState('');
-  const [inputSummary, setSummary] = useState('');
+  const dispatch = useDispatch();
+  const map = useSelector((state) => state.map);
+  const category = map.settingCategories;
 
-  const response = () => {
-    const dataForSending = {};
+  console.log(category);
 
+  const settings = () => {
     const validCategory = Object.keys(isClicked).filter((categoryId) => {
       if (isClicked[categoryId]) {
         return categoryId.toString();
       }
     });
-
-    dataForSending.title = inputTitle;
-    dataForSending.summary = inputSummary;
-    dataForSending.category = validCategory;
-
-    sending(dataForSending);
+    console.log(validCategory);
+    dispatch(mapAction({ settingCategories: validCategory }));
     close();
   };
 
@@ -106,26 +92,7 @@ const voiceSendingModal = ({ close, sending }) => {
     <View style={styles.centeredView}>
       <View style={styles.modalView}>
         <ScrollView>
-          <Text style={styles.modalText}>録音が完了しました！</Text>
-          <View style={styles.form}>
-            <Text>・タイトル</Text>
-            <TextInput
-              placeholder="タイトルを入力"
-              value={inputTitle}
-              onChangeText={(title) => setTitle(title)}
-              style={styles.input}
-            />
-          </View>
-          <View style={styles.form}>
-            <Text>・概要</Text>
-            <TextInput
-              placeholder="概要を入力"
-              value={inputSummary}
-              onChangeText={(summary) => setSummary(summary)}
-              style={styles.input}
-            />
-          </View>
-          <Text style={styles.modalText}>・該当するカテゴリーを選択してください</Text>
+          <Text style={styles.modalText}>・表示したいカテゴリーを選択してください</Text>
           <View style={styles.section}>
             <Checkbox
               style={styles.checkbox}
@@ -168,7 +135,7 @@ const voiceSendingModal = ({ close, sending }) => {
           </View>
           <View style={styles.buttonSection}>
             <Button title="キャンセル" onPress={close} />
-            <Button title="送信" onPress={response} />
+            <Button title="設定" onPress={settings} />
           </View>
         </ScrollView>
       </View>

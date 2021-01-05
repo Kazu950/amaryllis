@@ -6,5 +6,6 @@ export const mapAction = (mapState) => ({
     currentLongitude: mapState.currentLongitude,
     LocationErrorMsg: mapState.LocationErrorMsg,
     voiceMemo: mapState.voiceMemo,
+    settingCategories: mapState.settingCategories,
   },
 });
