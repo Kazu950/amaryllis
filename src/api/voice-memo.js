@@ -3,8 +3,14 @@ import axios from 'axios';
 export const getVoiceMemo = async () => {
   const response = await axios
     .get(process.env.ALL_VOICEMEMO)
-    .then((res) => res.data)
-    .catch((err) => err);
+    .then((res) => {
+      console.log(res);
+      return res.data;
+    })
+    .catch((err) => {
+      console.log(err);
+      return err;
+    });
 
   return response;
 };
@@ -25,8 +31,14 @@ export const postVoiceMemo = async (body) => {
   };
 
   const response = await axios(options)
-    .then((res) => res)
-    .catch((err) => err);
+    .then((res) => {
+      console.log(res);
+      return res;
+    })
+    .catch((err) => {
+      console.error(err);
+      return err;
+    });
 
   return response;
 };

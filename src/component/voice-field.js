@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { View, Text, Modal, StyleSheet } from 'react-native';
 import { Audio } from 'expo-av';
+import * as FileSystem from 'expo-file-system';
 
 import { buttonTheme, button as VoiceButton } from './button';
 import VoiceSendingModal from './modal/voice-sending-modal';
@@ -37,16 +38,21 @@ const voiceField = () => {
   const [voiceSound, setSound] = useState();
   const [recordingNow, setRecordingNow] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [voiceBinary, setVoiceBinary] = useState('');
 
   const account = useSelector((state) => state.account);
+  const map = useSelector((state) => state.map);
+  const { currentLatitude, currentLongitude, voiceMemo } = map;
 
   const showModal = () => {
     setModalVisible(!modalVisible);
   };
 
-  const playSound = async (voiceUri) => {
+  const playSound = async () => {
     console.log('Loading Sound');
-    const { sound } = await Audio.Sound.createAsync({ uri: voiceUri });
+    const { sound } = await Audio.Sound.createAsync({
+      uri: voiceMemo[5].data,
+    });
 
     setSound(sound);
     console.log(sound);
@@ -93,10 +99,10 @@ const voiceField = () => {
     const body = [
       { token: account.token },
       { uid: account.uid },
-      { time: 2 },
-      { data: 'Tetetest' },
-      { latitude: 34.35 },
-      { longitude: 135.24 },
+      { time: 10 },
+      { data: voiceBinary },
+      { latitude: currentLatitude },
+      { longitude: currentLongitude },
       { title: modalInfo.title },
       { summary: modalInfo.summary },
     ];
@@ -117,6 +123,17 @@ const voiceField = () => {
     setRecording(undefined);
 
     await voiceRecording.stopAndUnloadAsync();
+
+    const uri = voiceRecording.getURI();
+    const option = {
+      encoding: FileSystem.EncodingType.Base64,
+      length: 4096,
+    };
+    const binaryVoiceMemo = await FileSystem.readAsStringAsync(uri, option);
+    setVoiceBinary(binaryVoiceMemo);
+    if (voiceMemo.length > 0) {
+      playSound();
+    }
   };
 
   return (

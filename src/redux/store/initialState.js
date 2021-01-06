@@ -1,7 +1,7 @@
 const initialState = {
   map: {
-    currentLatitude: '',
-    currentLongitude: '',
+    currentLatitude: 0,
+    currentLongitude: 0,
     LocationErrorMsg: '',
     voiceMemo: [],
     settingCategories: [],

@@ -24,8 +24,6 @@ const viewMap = () => {
   const dispatch = useDispatch();
   const map = useSelector((state) => state.map);
   const { LocationErrorMsg, voiceMemo, currentLatitude, currentLongitude } = map;
-  console.log('------------------map----------------');
-  console.log(map);
 
   useEffect(() => {
     (async () => {
@@ -33,15 +31,40 @@ const viewMap = () => {
       if (status !== 'granted') {
         dispatch(permissionAction({ LocationErrorMsg: 'Permission to access location was denied' }));
       } else {
-        const response = await api.getVoiceMemo();
-        const location = await Location.getCurrentPositionAsync({});
-        dispatch(currentLocationAction({
-          currentLatitude: location.coords.latitude, currentLongitude: location.coords.longitude,
-        }));
+        const response = await api.getVoiceMemo()
+          .then((voice) => voice.map((res) => ({
+            data: res.data,
+            latitude: res.latitude,
+            longitude: res.longitude,
+            title: res.title,
+            summary: res.summary,
+          })))
+          .catch((err) => {
+            console.error(err);
+          });
         dispatch(voiceAction({ voiceMemo: response }));
       }
     })();
   }, []);
+
+  const getCurrentLocation = async () => {
+    const location = await Location.getCurrentPositionAsync({
+      accuracy: Location.Accuracy.High,
+    })
+      .then((res) => res.coords)
+      .catch((err) => {
+        console.log('47', err);
+        return err;
+      });
+    dispatch(currentLocationAction({
+      currentLatitude: location.latitude, currentLongitude: location.longitude,
+    }));
+  };
+
+  Location.watchPositionAsync({
+    timeInterval: 2000,
+    accuracy: Location.Accuracy.High,
+  }, getCurrentLocation);
 
   return (
     <View style={styles.container}>
@@ -50,17 +73,17 @@ const viewMap = () => {
       ) : (
         <View>
           {!currentLatitude ? (
-            <Text>位置情報取得中</Text>
+            <Text>位置情報を取得中</Text>
           ) : (
             <MapView style={styles.map}>
               <Marker
-                coordinate={{ latitude: currentLatitude, longitude: currentLongitude }}
+                coordinate={{ latitude: currentLatitude || 0, longitude: currentLongitude || 0 }}
                 title="現在地"
               />
               {voiceMemo.map((marker, index) => (
                 <Marker
                   key={index}
-                  coordinate={{ latitude: marker.latitude, longitude: marker.longitude }}
+                  coordinate={{ latitude: marker.latitude || 0, longitude: marker.longitude || 0 }}
                   title={marker.title}
                   description={marker.summary}
                 />
