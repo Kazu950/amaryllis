@@ -15,10 +15,12 @@ const reducer = (state = initialState.map, action) => {
       };
     case Actions.VOICEMEMO:
       return {
-        voiceMemo: [...action.payload],
+        ...state,
+        voiceMemo: action.payload.voiceMemo,
       };
     case Actions.SETTING_CATEGORY:
       return {
+        ...state,
         settingCategories: [...action.payload],
       };
     default:
